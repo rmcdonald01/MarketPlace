@@ -1,0 +1,38 @@
+$.ajax({
+      url:"{{ path_for('manual-criteria') }}",
+      method:"POST",
+      dataType: "json",
+      data:{
+          "criteria_id": $('#'+this.id).val(),
+        },
+      cache: false,
+      success: function (result) {
+        $('.options').html('<div class="form-group option_new"><label class="control-label requiredField" for="select">Select Option<span class="asteriskField">  *       </span>      </label>      <select class="select form-control" id="option" name="option" multiple>       <option value="First Choice">First Choice</option> <option value="Second Choice"> Second Choice</option> <option value="Third Choice"> Third Choice</option></select> </div>');
+        var select = $('#option');
+        select.children().remove();
+
+        if (result) {
+
+          select.append($("<option>").val("").text('Select '+selected_option_text+' Option'));
+            $(result).each(function(index, item) {
+               select.append($("<option>").val(item.id).text(item.description));
+            });
+
+             $('#option').multiselect({
+             enableClickableOptGroups: true,
+             enableCollapsibleOptGroups: true,
+             enableFiltering: true,
+             includeSelectAllOption: true
+             });
+
+
+        }else {
+        select.append($("<option>").val("").text('Error'));
+        }
+
+      },
+      error: function (XMLHttpRequest, textStatus, errorThrown) {
+         alert('Fatal Error');
+
+      }
+});

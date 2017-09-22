@@ -1,0 +1,96 @@
+
+<!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{ path_for('home') }}">Skeleton</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class=""><a href="{{ path_for('home') }}">Home</a></li>
+            <li class=""><a href="{{ path_for('checkout.index') }}">Check out</a></li>
+              {% if auth.check %}
+                {% if auth.isAdmin or auth.isSuperAdmin %}
+                  <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Feature <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                          <li><a href="#">Feature</a></li>
+                          <li class=""><a href="#">Feature</a></li>
+                          <li class=""><a href="#">Feature</a></li>
+                          <li role="separator" class="divider"></li>
+                          <li class="dropdown-header">New</li>
+                          <li><a href="#">New</a></li>
+                      </ul>
+                  </li>
+                  <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Feature <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                          <li><a href="#">Feature</a></li>
+                          <li role="separator" class="divider"></li>
+                          <li class="dropdown-header">Coming Features</li>
+
+                      </ul>
+                  </li>
+                {% endif %}
+                {% if auth.user.username != 'chriscirri' %}
+                  <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Feature<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                          <li><a href="#">Feature</a></li>
+                          <li><a href="#">Feature</a></li>
+                          <li role="separator" class="divider"></li>
+                          <li class="dropdown-header">Coming Features</li>
+                          <li><a href="#"></a></li>
+                          <li><a href="#"></a></li>
+                      </ul>
+                  </li>
+                {% endif %}
+
+                {% if auth.user.username != 'chriscirri' %}
+                  <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Feature<span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                          <li><a href="#">Feature</a></li>
+                          <li role="separator" class="divider"></li>
+                          <li class="dropdown-header">Coming Features</li>
+                          <li><a href="#"></a></li>
+                          <li><a href="#"></a></li>
+                      </ul>
+                  </li>
+                {% endif %}
+
+                  {% if auth.isAdmin or auth.isSuperAdmin or auth.user.username == 'chriscirri' %}
+                  <li><a href="#">Feature</a></li>
+                  {% endif %}
+                {% endif %}
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+              {% if auth.check %}
+                  <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> {{ auth.user.fname }} {{ auth.user.lname }} <span class="caret"></span></a>
+                      <ul class="dropdown-menu">
+                          {% if auth.isAdmin or auth.isSuperAdmin %}
+                          <li><a href="{{ path_for('auth.password.change') }}">Change password</a></li>
+                          {% endif %}
+
+                          <li><a href="{{ path_for('auth.signout') }}">Sign out</a></li>
+
+                          {% if auth.isSuperAdmin %}
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{{ path_for('auth.signup') }}">Create User</a></li>
+                          {% endif %}
+                      </ul>
+                  </li>
+              {% else %}
+                  <li><a href="{{ path_for('auth.signin') }}">Sign in</a></li>
+              {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>

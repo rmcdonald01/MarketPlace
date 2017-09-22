@@ -1,0 +1,64 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">Create user</div>
+                <div class="panel-body">
+                    <form action="{{ path_for('auth.signup') }}" method="post" autocomplete="off">
+                        <div class="form-group{{ errors.fname ? ' has-error' : '' }}">
+                            <label for="fname">Firt Name</label>
+                            <input type="text" name="fname" id="fname" class="form-control" value="{{ old.name }}">
+                            {% if errors.name %}
+                                <span class="help-block">{{ errors.fname | first }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="form-group{{ errors.lname ? ' has-error' : '' }}">
+                            <label for="lname">Last Name</label>
+                            <input type="text" name="lname" id="lname" class="form-control" value="{{ old.name }}">
+                            {% if errors.name %}
+                                <span class="help-block">{{ errors.lname | first }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="form-group{{ errors.email ? ' has-error' : '' }}">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email" placeholder="you@domain.com" class="form-control" value="{{ old.email }}">
+                            {% if errors.email %}
+                                <span class="help-block">{{ errors.email | first }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="form-group{{ errors.username ? ' has-error' : '' }}">
+                            <label for="username">Username</label>
+                            <input type="text" name="username" id="username" class="form-control" value="{{ old.name }}">
+                            {% if errors.name %}
+                                <span class="help-block">{{ errors.username | first }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="form-group{{ errors.password ? ' has-error' : '' }}">
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" class="form-control">
+                            {% if errors.password %}
+                                <span class="help-block">{{ errors.password | first }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                          <label for="usertype">UserType</label>
+                          <select class="form-control" name="usertype" required="">
+                          <option value="agent">Select UserType</option>
+                          <option value="agent">Agent</option>
+                          <option value="admin">Admin</option>
+                          <option value="superAdmin">SuperAdmin</option>
+                          </select>
+                          <p class="help-block">Use to determine a user privillages.</p>
+                        </div>
+
+                        <button type="submit" class="btn btn-default">Create User</button>
+
+                        {{ csrf.field | raw }}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

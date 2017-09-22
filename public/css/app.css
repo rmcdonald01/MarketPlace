@@ -1,0 +1,37 @@
+body {
+    padding-top: 80px;
+    padding-bottom: 40px;
+}
+
+
+.fetch-listings {
+  margin-bottom: 30px;
+}
+
+
+td.details-control {
+    background: url('../images/datatables/details_open.png') no-repeat center center;
+    cursor: pointer;
+}
+tr.listset td.details-control {
+    background: url('../images/datatables/details_close.png') no-repeat center center;
+}
+td.listsetdetails-control {
+    background: url('../images/datatables/details_close.png') no-repeat center center;
+    cursor: pointer;
+}
+
+.dynamic_table {
+  padding-top: 20px;
+}
+
+.table-inner-content-wrapper{
+
+    background-color: #fff;
+    padding: 20px;
+}
+
+.table-inner-content{
+    padding: 20px;
+    background-color: #eee;
+}

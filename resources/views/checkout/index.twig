@@ -1,0 +1,17 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <form action="{{ action }}" method="post">
+      <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+              data-key="{{ publishable_key }}"
+              data-description="Access for a year"
+              data-amount="5000"
+              data-locale="auto"></script>
+    </form>
+  </div>
+  <div class="col-md-4"></div>
+</div>
+{% endblock %}

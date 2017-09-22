@@ -1,0 +1,16 @@
+{
+  "transport": "ftp",
+  "uploadOnSave": false,
+  "useAtomicWrites": false,
+  "deleteLocal": false,
+  "hostname": "160.153.36.229",
+  "port": "21",
+  "target": "/",
+  "ignore": [
+    ".remote-sync.json",
+    ".git/**"
+  ],
+  "username": "dev-portal",
+  "password": "P8%T*zy)DiSh",
+  "watch": []
+}

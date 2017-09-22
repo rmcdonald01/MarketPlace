@@ -1,0 +1,135 @@
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+<div class="row">
+
+</div>
+<div class="container-fluid">
+  <div class="row">
+   <div class="col-md-3 col-sm-4 col-xs-12">
+    <form method="post" action="{{ path_for('state.management') }}">
+     <div class="form-group ">
+      <!-- <label class="control-label requiredField" for="select">
+       State
+       <span class="asteriskField">
+        *
+       </span>
+      </label> -->
+      <select class="select form-control" id="state_id" name="state_id">
+       <option value="First Choice">
+         Select state
+       </option>
+
+       {% for state in states %}
+       <option value="{{ state.id }}"> {{ state.state_abbreviation }} - {{ state.state_name }} </option>
+       {% endfor %}
+
+      </select>
+      <!-- <span class="help-block" id="hint_select">
+       Choose a state.
+      </span> -->
+     </div>
+     <div class="form-group" id="div_checkbox">
+      <label class="control-label " for="checkbox">
+       Change To.
+      </label>
+      <div class="form-group fill-in-status">
+
+      </div>
+      <!-- <span class="help-block" id="hint_select">
+       Choose the state in order to get statuses.
+      </span> -->
+     </div>
+     <div class="form-group ">
+      <label class="control-label " for="message">
+       Notes
+      </label>
+      <textarea class="form-control" cols="40" id="note" name="note" rows="10"></textarea>
+     </div>
+     <div class="form-group">
+      <div>
+       <button class="btn btn-primary " name="" type="submit">
+        Submit
+       </button>
+      </div>
+     </div>
+    </form>
+   </div>
+  </div>
+
+  <div class="row">
+    <div class="row">
+      <hr>
+      <div class="col-md-12">
+        <table id="jsStateChangeHistory"></table>
+        <div id="jqGridPagerStateChangeHistory"></div>
+      </div>
+    </div>
+  </div>
+ </div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+<link rel="stylesheet" href="{{ base_url() }}/css/select2/select2.css" media="screen" title="no title" charset="utf-8">
+<script type="text/javascript" src="{{ base_url() }}/js/select2/select2.js"></script>
+
+<script type="text/javascript" src="{{ base_url() }}/js/jqgrid/grid.locale-en.js"></script>
+<script type="text/javascript" src="{{ base_url() }}/js/jqgrid/jquery.jqGrid.min.js"></script>
+<script type="text/javascript" src="{{ base_url() }}/js/jqgrid/jquery.jqGrid.js"></script>
+<link rel="stylesheet" href="{{ base_url() }}/css/jqgrid/ui.jqgrid-bootstrap.css" media="screen" title="no title" charset="utf-8">
+
+<script type="text/javascript">
+
+$(document).ready(function (){
+
+  $("#state_id").select2({
+  //placeholder: "Select a ID",
+  //allowClear: true
+});
+
+$(document).on("change", "#state_id", function () {
+  console.log($(this).val());
+  $.ajax({
+    type: "POST",
+    url:"{{ path_for('state.status')}}",
+    cache: false,
+    data: {
+      'state_id' : $(this).val()
+    },
+    success: function (result) {
+      console.log(result.html);
+      $('.fill-in-status').html(result.html);
+    }
+  })
+});
+
+});
+
+$("#jsStateChangeHistory").jqGrid({
+    styleUI : 'Bootstrap',
+    url: "{{ path_for('state.management.history') }}",
+    datatype: "json",
+    colModel: [
+      { label: 'ID', name: 'id', key: true, width: 75 },
+      { label: 'State', name: 'state_name', width: 150 },
+      { label: 'Status', name: 'status', width: 150 },
+      { label: 'Notes', name: 'note', width: 350 },
+      { label: 'Entered BY', name: 'entered_by', width: 150 }
+    ],
+    sortname : 'id',
+    sortorder: 'desc',
+    viewrecords: true,
+            height: 250,
+            rowNum: 20,
+            pager: "#jqGridPagerStateChangeHistory",
+            caption: "History",
+});
+
+</script>
+
+
+
+{% endblock %}

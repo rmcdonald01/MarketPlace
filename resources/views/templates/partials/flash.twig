@@ -1,0 +1,32 @@
+{% if flash.getMessage('info') %}
+    <div class="alert alert-info">
+        {{ flash.getMessage('info') | first }}
+    </div>
+{% endif %}
+
+{% if flash.getMessage('error') %}
+    <div class="alert alert-danger">
+        {{ flash.getMessage('error') | first }}
+    </div>
+{% endif %}
+
+{% if flash.getMessage('dissmissable-warning') %}
+<div class="row" style="margin-left:5px;">
+  <div class="col-md-4 alert alert-warning alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  {{ flash.getMessage('dissmissable-success') | first }}
+</div>
+</div>
+
+{% endif %}
+
+{% if flash.getMessage('dissmissable-success') %}
+<!-- <div class="row" style="margin-left:5px;"> -->
+<div class="container-fluid">
+  <div class="col-md-4 alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  {{ flash.getMessage('dissmissable-success') | first }}
+</div>
+</div>
+
+{% endif %}
