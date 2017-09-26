@@ -8,15 +8,23 @@ use Slim\Router;
 
 class CheckOutController extends Controller
 {
+
+
     public function index($request, $response)
     {
+      return $this->view->render($response, 'checkout/index.twig');
+    }
 
+    public function checkout($request, $response)
+    {
       //die('here');
+        $enteredAmount = $request->getParam('amount');
+        $amount = $enteredAmount * 100;
        //Stripe::setApiKey(getenv('secret_key'));
-
-        return $this->view->render($response, 'checkout/index.twig', $arg = [
+        return $this->view->render($response, 'checkout/checkout.twig', $arg = [
           'publishable_key' => getenv('publishable_key'),
-          'action'          =>  'checkout/charge'
+          'action'          =>  'checkout/charge',
+          'amount'          =>  $amount
         ]);
     }
 

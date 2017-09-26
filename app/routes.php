@@ -9,7 +9,8 @@ $app->get('/', 'HomeController:index')->setName('home');
 $app->post('/internal-login', 'AuthController:postInternalLogin')->setName('internal-login');
 
 //----------------------------------------- Checking Out ---------------------------------
-$app->get('/checkout', 'CheckOutController:index')->setName('checkout.index');
+$app->get('/checkout/index', 'CheckOutController:index')->setName('checkout.index');
+$app->post('/checkout', 'CheckOutController:checkout')->setName('checkout');
 $app->post('/checkout/charge', 'CheckOutController:charge')->setName('checkout.charge');
 
 
