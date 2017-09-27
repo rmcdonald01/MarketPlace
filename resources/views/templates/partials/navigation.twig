@@ -14,7 +14,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class=""><a href="{{ path_for('home') }}">Home</a></li>
-            <li class=""><a href="{{ path_for('checkout.index') }}">Check out</a></li>
+            <li class=""><a href="{{ path_for('checkout.index') }}">Payment</a></li>
               {% if auth.check %}
                 {% if auth.isAdmin or auth.isSuperAdmin %}
                   <li class="dropdown">

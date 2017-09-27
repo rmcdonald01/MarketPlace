@@ -4,11 +4,13 @@ namespace App\Controllers;
 
 use Slim\Views\Twig as View;
 use Slim\Router;
+use Respect\Validation\Validator as v;
 
 
 class CheckOutController extends Controller
 {
 
+    protected $amount;
 
     public function index($request, $response)
     {
@@ -17,14 +19,22 @@ class CheckOutController extends Controller
 
     public function checkout($request, $response)
     {
-      //die('here');
-        $enteredAmount = $request->getParam('amount');
-        $amount = $enteredAmount * 100;
-       //Stripe::setApiKey(getenv('secret_key'));
+
+        $validation = $this->validator->validate($request, [
+            'amount' => v::notEmpty()->numeric()->positive()->minPayment(),
+        ]);
+
+        if ($validation->failed()) {
+          
+            return $response->withRedirect($this->router->pathFor('checkout.index'));
+        }
+$enteredAmount = $request->getParam('amount');
+        $this->amount = $enteredAmount * 100;
+        $_SESSION['AMOUNT'] = $this->amount;
         return $this->view->render($response, 'checkout/checkout.twig', $arg = [
           'publishable_key' => getenv('publishable_key'),
           'action'          =>  'checkout/charge',
-          'amount'          =>  $amount
+          'amount'          =>  $this->amount
         ]);
     }
 
@@ -42,14 +52,23 @@ class CheckOutController extends Controller
 
         $charge = \Stripe\Charge::create(array(
           'customer' => $customer->id,
-          'amount'   => 500,
+          'amount'   => $_SESSION['AMOUNT'],
           'currency' => 'usd',
           'description' => 'Service Market Place charge',
           'receipt_email' => $email,
           'source'  => $token
         ));
 
-        echo '<h1>Successfully charged $50.00!</h1>';
+        //$charge->paid
+        if ($charge->status == 'succeeded') {
+          $this->flash->addMessage('dissmissable-success', 'Charge of $'. $_SESSION['AMOUNT'] / 100 .' was successful made!');
+          return $response->withRedirect($this->router->pathFor('home'));
+      }else {
+        $this->flash->addMessage('error', '<h1>Charged of $'. $_SESSION['AMOUNT'] / 100 .' failed!</h1>');
+        return $response->withRedirect($this->router->pathFor('home'));
+      }
+
+
     }
 
     public function chargeCustomer($request, $response)
@@ -71,10 +90,10 @@ class CheckOutController extends Controller
 
         $charge = \Stripe\Charge::create(array(
           'customer' => $customer->id,
-          'amount'   => 500,
+          'amount'   => $this->$amount,
           'currency' => 'usd'
         ));
 
-        echo '<h1>Successfully charged $50.00!</h1>';
+        echo '<h1>Successfully charged'.$this->$amount.'!</h1>';
     }
 }
